@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    {% if form.errors %}
+    <p>problem z form</p>
+    {% endif %}
+  <h2>Register</h2>
+  <form method="POST" action="{% url 'teacher_register' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <a href="{% url 'teacher_login' %}" class="btn btn-secondary">Go back</a>
+  </form>
+{% endblock %}

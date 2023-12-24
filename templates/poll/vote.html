@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Vote{% endblock %}
+
+{% block main %}
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Cast Your Vote</h3>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <hr />
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <div class="radio">
+                                    <label class="radio-label">
+                                        <input type="radio" name="poll" value="option_a" class="form-check-input">
+                                        {{ poll.option_a }}
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="poll" value="option_b" class="form-check-input">
+                                        {{ poll.option_b }}
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="poll" value="option_c" class="form-check-input">
+                                        {{ poll.option_c }}
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="poll" value="option_d" class="form-check-input">
+                                        {{ poll.option_d }}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <button type="submit" class="btn btn-info btn-lg"> <!-- btn-lg for larger size -->
+                                Submit
+                            </button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
