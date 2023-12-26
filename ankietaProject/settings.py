@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'poll',
     'widget_tweaks',
+    'whitenoise.runserver_nostatic',
 ]
 
 SESSION_COOKIE_AGE = 150
