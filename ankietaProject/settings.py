@@ -13,6 +13,11 @@ import os
 from pathlib import Path
 #from dotenv import load_dotenv
 
+try:
+    import fcntl
+    HAS_FCNTL = True
+except ImportError:
+    HAS_FCNTL = False
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
