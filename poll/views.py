@@ -143,7 +143,7 @@ def chart(request):
                   {'data': chart_data, 'current_access_code': current_access_code, 'poll_status': poll_status})
 
 def access(request):
-    poll = Poll.objects.get(pk=1)
+    poll = Poll.objects.get_or_create(pk=1)
 
     if request.session.get('has_entered_code'):
         return redirect('vote')
