@@ -76,7 +76,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ankietaProject.wsgi.application'
 
 
-ALLOWED_HOSTS = ['5.173.26.100', 'web-production-8819.up.railway.app']
+ALLOWED_HOSTS = ['*']
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
