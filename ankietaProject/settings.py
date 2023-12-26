@@ -75,6 +75,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ankietaProject.wsgi.application'
 
+
 ALLOWED_HOSTS = ['5.173.26.100', 'web-production-8819.up.railway.app']
 
 # Database
