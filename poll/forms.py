@@ -19,8 +19,5 @@ class EditUsernameForm(forms.ModelForm):
         model = User
         fields = ['username']
 
-#class ChangePasswordForm(PasswordChangeForm):
-#    def clean_new_password1(self):
-        # Customize password validation as needed
-#        return self.cleaned_data.get('new_password1')
+
 
