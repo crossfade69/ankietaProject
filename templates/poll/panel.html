@@ -71,6 +71,48 @@
         window.open(chartUrl, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100,width=800,height=600');
     }
     </script>
-    
+    <script>
+    $(document).ready(function() {
+        // Function to toggle the disabled attribute of the button based on the access code field and form instance
+        function toggleActivatePollButton() {
+            var accessCode = $("#id_new_access_code").val();  // Use the actual ID of your new_access_code field
+            var isFormActive = {% if form.instance.is_active %}true{% else %}false{% endif %};
+
+            if (accessCode.trim() === "" || isFormActive) {
+                $("#activate-poll-button").prop("disabled", true);
+            } else {
+                $("#activate-poll-button").prop("disabled", false);
+            }
+        }
+
+        toggleActivatePollButton();
+        $("#id_new_access_code").on("input", function() {
+            toggleActivatePollButton();
+        });
+    });
+    </script>
+    <script>
+    $(document).ready(function() {
+        function handleLogoutOnInactivity() {
+            console.log("User is logging out due to inactivity");
+            window.location.href = '/login/';
+        }
+
+        var inactivityTimeout = 60000;  // 1 minute
+
+        var activityTimer;
+
+        function resetActivityTimer() {
+            clearTimeout(activityTimer);
+            activityTimer = setTimeout(handleLogoutOnInactivity, inactivityTimeout);
+        }
+
+        $(document).on('mousemove keydown', function() {
+            resetActivityTimer();
+        });
+
+        resetActivityTimer();
+    });
+</script>
     
 {% endblock %}

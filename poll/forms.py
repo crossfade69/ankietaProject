@@ -16,7 +16,7 @@ class EditPollForm(ModelForm):
 class EditUsernameForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username']
+        fields = ['username', 'password']
 
 
 

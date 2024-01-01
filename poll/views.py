@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 
+from . import forms
 from .forms import EditPollForm, EditUsernameForm
 from .models import Poll
 
@@ -76,9 +77,11 @@ def edit_profile(request):
 
 #@login_required(login_url='teacher_login')
 def panel(request):
-    poll, created = Poll.objects.get_or_create(pk=1)
+    poll = Poll.objects.get(pk=1)
     chart_url = reverse('chart')
 
+    if not request.user.is_authenticated:
+        return redirect('login')
 
     poll_data = {
         'option_a_count': poll.option_a_count,
@@ -86,21 +89,21 @@ def panel(request):
         'option_c_count': poll.option_c_count,
         'option_d_count': poll.option_d_count,
         'current_access_code': poll.access_code,
+        'is_active': poll.is_active,
     }
 
     if request.method == 'POST':
         form = EditPollForm(request.POST, instance=poll)
         if form.is_valid():
             new_access_code = form.cleaned_data.get('new_access_code')
-
             if new_access_code and 'change_access_code' in request.POST:
                 poll.access_code = new_access_code
                 poll.save()
                 form.save()
 
             if 'activate_poll' in request.POST:
-                Session.objects.filter(expire_date__gte=timezone.now()).delete()
-
+                #Session.objects.filter(expire_date__gte=timezone.now()).delete()
+                request.session.set_expiry(0)
                 poll.is_active = True
                 poll.option_a_count = 0
                 poll.option_b_count = 0
