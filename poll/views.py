@@ -102,7 +102,6 @@ def panel(request):
                 form.save()
 
             if 'activate_poll' in request.POST:
-                #Session.objects.filter(expire_date__gte=timezone.now()).delete()
                 request.session.set_expiry(0)
                 poll.is_active = True
                 poll.option_a_count = 0
