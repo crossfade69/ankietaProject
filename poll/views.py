@@ -1,15 +1,12 @@
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
-from django.contrib.sessions.models import Session
 from django.contrib import messages
 from django.urls import reverse
-from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 
-from . import forms
-from .forms import EditPollForm, EditUsernameForm
+from .forms import (EditPollForm, PolishUserCreationForm,
+                    PolishEditUsernameForm, PolishPasswordChangeForm)
 from .models import Poll
 
 
@@ -34,7 +31,7 @@ def teacher_logout(request):
 
 def teacher_register(request):
     if request.method == 'POST':
-        form =UserCreationForm(request.POST)
+        form =PolishUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data['username']
@@ -44,15 +41,15 @@ def teacher_register(request):
             messages.success(request, 'sukces')
             return redirect('teacher_login')
     else:
-        form = UserCreationForm()
+        form = PolishUserCreationForm()
     return render(request, 'registration/register.html',{
         'form':form})
 
 @login_required(login_url='teacher_login')
 def edit_profile(request):
     if request.method == 'POST':
-        username_form = EditUsernameForm(request.POST, instance=request.user)
-        password_form = PasswordChangeForm(request.user, request.POST)
+        username_form = PolishEditUsernameForm(request.POST, instance=request.user)
+        password_form = PolishPasswordChangeForm(request.user, request.POST)
 
         if username_form.is_valid():
             username_form.save()
@@ -67,8 +64,8 @@ def edit_profile(request):
             messages.error(request, 'Password change failed. Please correct the errors.')
 
     else:
-        username_form = EditUsernameForm(instance=request.user)
-        password_form = PasswordChangeForm(request.user)
+        username_form = PolishEditUsernameForm(instance=request.user)
+        password_form = PolishPasswordChangeForm(request.user)
 
     return render(request, 'registration/edit_profile.html', {
         'username_form': username_form,

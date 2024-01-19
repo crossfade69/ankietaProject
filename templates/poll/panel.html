@@ -14,35 +14,35 @@
                         <div class="col-lg-12">
                             <div class="form-group text-right">
                                 <a href="{% url 'edit_profile' %}" class="btn btn-info btn-sm ml-2">
-                                    Edit Profile
+                                    Edytuj Profil
                                 </a>
                                 <a href="{% url 'teacher_logout' %}" class="btn btn-info btn-sm ml-2">
-                                    Logout
+                                    Wyloguj
                                 </a>
                             </div>
                             <div class="form-group">
-                                <label>Enter new access code</label>
+                                <label>Wprowadź nowy kod</label>
                                 {{ form.new_access_code }}
-                                <p>Current Access Code: {{ form.instance.access_code }}</p>
+                                <p>Obecny kod dostępu: {{ form.instance.access_code }}</p>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label>Current Status: </label>
+                                <label>Obecny status: </label>
                                 {% if form.instance.is_active %}
-                                    <small class="text">Poll is active</small>
+                                    <small class="text">Ankieta dostępna</small>
                                 {% else %}
-                                    <small class="text">Poll is not active</small>
+                                    <small class="text">Ankieta niedostępna</small>
                                 {% endif %}
-                                <button type="submit" id="activate-poll-button" name="activate_poll" class="btn btn-success form-control" 
+                                <button type="submit" id="activate-poll-button" name="activate_poll" class="btn btn-success form-control"
                                         {% if form.instance.is_active %}disabled{% endif %}>
-                                    Activate Poll
+                                    Odblokuj ankietę
                                 </button>
-                                <button type="submit" name="deactivate_poll" class="btn btn-danger form-control" 
+                                <button type="submit" name="deactivate_poll" class="btn btn-danger form-control"
                                         {% if not form.instance.is_active %}disabled{% endif %}>
-                                    Deactivate Poll
+                                    Zablokuj ankietę
                                 </button>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <button onclick="openChartInNewWindow()" class="btn btn-info form-control" {% if form.instance.is_active %}disabled{% endif %}>
-                                    Open Chart in New Window
+                                    Otwórz wykres
                                 </button>
                             </div>
                         </div>
@@ -62,57 +62,15 @@
         </div>
     </div>
 </div>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>   
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
     function openChartInNewWindow() {
         var chartUrl = "{% url 'chart' %}";
         chartUrl += "?current_access_code={{ current_access_code }}&poll_status={{ form.instance.is_active }}";
-        
+
         window.open(chartUrl, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100,width=800,height=600');
     }
     </script>
-    <script>
-    $(document).ready(function() {
-        // Function to toggle the disabled attribute of the button based on the access code field and form instance
-        function toggleActivatePollButton() {
-            var accessCode = $("#id_new_access_code").val();  // Use the actual ID of your new_access_code field
-            var isFormActive = {% if form.instance.is_active %}true{% else %}false{% endif %};
 
-            if (accessCode.trim() === "" || isFormActive) {
-                $("#activate-poll-button").prop("disabled", true);
-            } else {
-                $("#activate-poll-button").prop("disabled", false);
-            }
-        }
 
-        toggleActivatePollButton();
-        $("#id_new_access_code").on("input", function() {
-            toggleActivatePollButton();
-        });
-    });
-    </script>
-    <script>
-    $(document).ready(function() {
-        function handleLogoutOnInactivity() {
-            console.log("User is logging out due to inactivity");
-            window.location.href = '/login/';
-        }
-
-        var inactivityTimeout = 60000;  // 1 minute
-
-        var activityTimer;
-
-        function resetActivityTimer() {
-            clearTimeout(activityTimer);
-            activityTimer = setTimeout(handleLogoutOnInactivity, inactivityTimeout);
-        }
-
-        $(document).on('mousemove keydown', function() {
-            resetActivityTimer();
-        });
-
-        resetActivityTimer();
-    });
-</script>
-    
 {% endblock %}

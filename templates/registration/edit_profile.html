@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block main %}
-  <h2>Change Username and Password</h2>
+  <h2>Edytuj profil</h2>
 
   {% if messages %}
     <ul class="messages">
@@ -13,10 +13,27 @@
 
   <form method="post" action="{% url 'edit_profile' %}">
     {% csrf_token %}
-    {{ username_form.as_p }}
-    {{ password_form.as_p }}
-    <button type="submit" class="btn btn-primary">Submit</button>
-    <a href="{% url 'panel' %}" class="btn btn-secondary">Go to Panel</a>
+    <div class="form-group">
+        <label for="{{ username_form.username.id_for_label }}">Nazwa użytkownika:</label>
+        {{ username_form.username }}
+        <small class="form-text text-muted">Max 150 znaków; Tylko litery, cyfry i znaki @/./+/-/_</small>
+    </div>
+    <div class="form-group">
+        <label for="{{ password_form.old_password.id_for_label }}">Stare hasło:</label>
+        {{ password_form.old_password }}
+    </div>
+    <div class="form-group">
+        <label for="{{ password_form.new_password1.id_for_label }}">Nowe hasło:</label>
+        {{ password_form.new_password1 }}
+        <small class="form-text text-muted">Co najmniej 8 znaków; Nie może być zbyt łatwe do odgadnięcia</small>
+    </div>
+    <div class="form-group">
+        <label for="{{ password_form.new_password2.id_for_label }}">Potwierdź nowe hasło:</label>
+        {{ password_form.new_password2 }}
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Zapisz</button>
+    <a href="{% url 'panel' %}" class="btn btn-secondary">Wróć</a>
   </form>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
